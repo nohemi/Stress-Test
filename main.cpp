@@ -1,5 +1,7 @@
 #include "cv.h"
 #include "highgui.h"
+
+#include "metriccontainer.h"
 using namespace cv;
 
 int main(int argc, char* argv[]) {
@@ -8,6 +10,8 @@ int main(int argc, char* argv[]) {
 	if (!capture.isOpened()) return -1;
 	namedWindow("display", 1);
 	Mat frame;
+
+	MetricContainer container;
 
 	//Loop outputing collected data
 	while (true) {
