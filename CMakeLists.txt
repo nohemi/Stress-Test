@@ -9,4 +9,6 @@ SET(INCLUDE_LIBRARIES ${OpenCV_LIBS})
 add_subdirectory(src)
 
 ADD_EXECUTABLE(stresstest src/finder.cpp src/trainingdata.cpp src/trainloader.cpp src/neuralnetwork.cpp src/metriccontainer.cpp main.cpp)
+add_executable(stressgen src/stressgen.cpp)
 target_link_libraries(stresstest ${INCLUDE_LIBRARIES})
+target_link_libraries(stressgen ${INCLUDE_LIBRARIES})
