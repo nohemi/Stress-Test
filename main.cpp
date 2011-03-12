@@ -4,7 +4,9 @@
 #include "metriccontainer.h"
 #include "neuralnetwork.h"
 #include "trainingdata.h"
+#include <iostream>
 using namespace cv;
+using namespace std;
 
 int main(int argc, char* argv[]) {
 	//Init camera feed and GUI output
@@ -25,7 +27,14 @@ int main(int argc, char* argv[]) {
 		Finder eyes;
 		vector<Rect> eye_frame;
 		eye_frame = eyes.detectEyes(frame);
-		//imshow("display", frame);
+		for (vector<Rect>::iterator it = eye_frame.begin(); it != eye_frame.end(); ++it) {
+			//cout << it->x << endl;
+			//cout << it->y << endl;
+			Point pt1(it->x,it->y);
+			Point pt2(it->x + it->width,it->y + it->height);
+			rectangle(frame,pt1,pt2,Scalar(0,0,255));
+		}
+		imshow("display", frame);
 		if (waitKey(30) >= 0 ) break;
 	}
 
