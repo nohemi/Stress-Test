@@ -7,7 +7,7 @@ public:
 	FileNotFoundException(string const& file) throw() {this->file = file;};
 	virtual ~FileNotFoundException() throw() {};
 	virtual const char* what() const throw() {
-		return string("File not found").c_str();
+		return string("File '" + file + "' not found").c_str();
 	};
 protected:
 	string file;

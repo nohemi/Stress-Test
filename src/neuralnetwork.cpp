@@ -17,22 +17,26 @@
 */
 
 
-#ifndef METRICEXTRACTOR_H
-#define METRICEXTRACTOR_H
+#include "neuralnetwork.h"
+#include "trainingdata.h"
+#include "metriccontainer.h"
 
-#include "cv.h"
+NeuralNetwork::NeuralNetwork() {
 
-#include <utility>
-#include <string>
-using namespace std;
+}
 
-class MetricExtractor {
+NeuralNetwork::NeuralNetwork(unsigned int input_size, unsigned int hidden_size,
+							 unsigned int output_size, TrainingData const& train,
+							 MetricContainer const& container) {
+	Mat neural_layers(3, 1, DataType<int>::type);
+	neural_layers.at<int>(0, 0) = input_size;
+	neural_layers.at<int>(1, 0) = hidden_size;
+	neural_layers.at<int>(2, 0) = output_size;
+	network.create(neural_layers);
+	network.train(train.get_inputs(container), train.get_outputs(), train.get_weights());
+}
+NeuralNetwork::~NeuralNetwork() {
+}
 
-public:
-    MetricExtractor() {};
-    virtual ~MetricExtractor() {};
-    virtual pair<const string, const double> calculate(cv::Mat const&) = 0;
-	virtual double get_weight() const;
-};
 
-#endif // METRICEXTRACTOR_H
+

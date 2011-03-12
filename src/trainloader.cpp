@@ -17,22 +17,25 @@
 */
 
 
-#ifndef METRICEXTRACTOR_H
-#define METRICEXTRACTOR_H
+#include "trainloader.h"
 
-#include "cv.h"
+TrainLoader::TrainLoader(string const& filename) {
+	datastore = FileStorage(filename, FileStorage::READ);
+}
 
-#include <utility>
-#include <string>
-using namespace std;
+TrainLoader::~TrainLoader() {
+}
 
-class MetricExtractor {
+TrainingData TrainLoader::extract_training_data() const {
+	TrainingData data;
+	FileNode root = datastore.getFirstTopLevelNode();
+	if (root.name() != "TrainingData") throw 0; //FIXME: Use FileException
+	for (FileNodeIterator it = root.begin(); it != root.end(); it++) {
+		Mat matrix;
+		(*it)["matrix"] >> matrix;
+		const bool stressed = (bool)(int)(*it)["stressed"];
+		data.append(matrix, stressed);
+	}
+	return data;
+}
 
-public:
-    MetricExtractor() {};
-    virtual ~MetricExtractor() {};
-    virtual pair<const string, const double> calculate(cv::Mat const&) = 0;
-	virtual double get_weight() const;
-};
-
-#endif // METRICEXTRACTOR_H

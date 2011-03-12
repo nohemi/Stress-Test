@@ -16,9 +16,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "cv.h"
+
 #include "metricextractor.h"
 #include "metriccontainer.h"
-
+using namespace cv;
 
 MetricContainer::MetricContainer() {
 
@@ -32,5 +34,28 @@ MetricContainer::~MetricContainer() {
 
 void MetricContainer::add_metric_extractor(MetricExtractor* extractor) {
 	metrics.push_back(extractor);
+}
+
+vector<double> MetricContainer::get_weights() const {
+	vector<double> ret;
+	for (list<MetricExtractor*>::const_iterator it = metrics.begin(); it != metrics.end(); it++) {
+		ret.push_back((*it)->get_weight());
+	}
+	return ret;
+}
+
+/** \brief Generate a set of metrics based on loaded metric extractors
+ *  \param input A matrix which represents an image
+ *  \return A matrix of one row where each column represents a metric
+ */
+Mat MetricContainer::calculate(Mat const& input) const {
+	Mat ret(input.rows, metrics.size(), CV_32FC1); //FIXME: More columns for more data types
+	for (list<MetricExtractor*>::const_iterator it = metrics.begin(); it != metrics.end(); it++) {
+		double* mtrx_ptr = ret.ptr<double>(0);
+		for (int col = 0; col < ret.cols; col++) {
+			mtrx_ptr[col] = ((*it)->calculate(input).second);
+		}
+	}
+	return ret;
 }
 

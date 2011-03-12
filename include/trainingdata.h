@@ -1,6 +1,6 @@
 /*
-	Stress Test
-    Copyright (C) 2011  Spencer Jackson & Nohemi Fernandez
+    <one line to give the program's name and a brief idea of what it does.>
+    Copyright (C) <year>  <name of author>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,31 +17,33 @@
 */
 
 
-#ifndef METRICCONTAINER_H
-#define METRICCONTAINER_H
+#ifndef TRAININGDATA_H
+#define TRAININGDATA_H
 
-#include <utility>
 #include <list>
-using namespace std;
+#include <string>
+#include <utility>
 
-//Forward declarations
-class MetricExtractor;
-namespace cv {
-	class Mat;
-}
+#include "cv.h"
+
+#include "metriccontainer.h"
+using namespace std;
 using namespace cv;
 
-class MetricContainer {
+/** \brief Stores true data for network training */
+class TrainingData {
 
 public:
-    MetricContainer();
-    virtual ~MetricContainer();
-    void add_metric_extractor(MetricExtractor*);
-	Mat calculate(Mat const& input) const;
-	vector<double> get_weights() const;
+	TrainingData();
+    virtual ~TrainingData();
+	void append(Mat const& image, bool stressed);
+    Mat get_inputs(MetricContainer const& container) const;
+	Mat get_outputs() const;
+	Mat get_weights() const;
 
-private:
-    list<MetricExtractor*> metrics;
+protected:
+	list<pair<Mat, bool> > data;
+	MetricContainer container;
 };
 
-#endif // METRICCONTAINER_H
+#endif // TRAININGDATA_H
