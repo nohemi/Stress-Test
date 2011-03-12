@@ -1,6 +1,6 @@
 #include "cv.h"
 #include "highgui.h"
-
+#include "finder.h"
 #include "metriccontainer.h"
 using namespace cv;
 
@@ -16,7 +16,10 @@ int main(int argc, char* argv[]) {
 	//Loop outputing collected data
 	while (true) {
 		capture >> frame;
-		imshow("display", frame);
+		Finder eyes;
+		vector<Rect> eye_frame;
+		eye_frame = eyes.detectEyes(frame);
+		//imshow("display", frame);
 		if (waitKey(30) >= 0 ) break;
 	}
 
