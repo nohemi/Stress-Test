@@ -22,10 +22,13 @@ int main(int argc, char* argv[]) {
 		vector<Rect> eye_frame;
 		eye_frame = eyes.detectEyes(frame);
 		for (vector<Rect>::iterator it = eye_frame.begin(); it != eye_frame.end(); ++it) {
-			cout << it->x << endl;
-			cout << it->y << endl;
+			//cout << it->x << endl;
+			//cout << it->y << endl;
+			Point pt1(it->x,it->y);
+			Point pt2(it->x + it->width,it->y + it->height);
+			rectangle(frame,pt1,pt2,Scalar(0,0,255));
 		}
-		//imshow("display", frame);
+		imshow("display", frame);
 		if (waitKey(30) >= 0 ) break;
 	}
 
