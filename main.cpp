@@ -17,7 +17,7 @@ int main(int argc, char* argv[]) {
 
 	MetricContainer container;
 	TrainingData data;
-	Mat image(1, 1, 1);
+	Mat image(1, 1, DataType<double>::type);
 	data.append(image, true);
 	NeuralNetwork ml_network(1, 3, 1, data, container);
 

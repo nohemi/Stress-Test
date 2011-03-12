@@ -28,7 +28,7 @@ NeuralNetwork::NeuralNetwork() {
 NeuralNetwork::NeuralNetwork(unsigned int input_size, unsigned int hidden_size,
 							 unsigned int output_size, TrainingData const& train,
 							 MetricContainer const& container) {
-	Mat neural_layers(3, 1, CV_32S, 0);
+	Mat neural_layers(3, 1, DataType<int>::type);
 	neural_layers.at<int>(0, 0) = input_size;
 	neural_layers.at<int>(1, 0) = hidden_size;
 	neural_layers.at<int>(2, 0) = output_size;
