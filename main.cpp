@@ -2,6 +2,8 @@
 #include "highgui.h"
 #include "finder.h"
 #include "metriccontainer.h"
+#include "neuralnetwork.h"
+#include "trainingdata.h"
 using namespace cv;
 
 int main(int argc, char* argv[]) {
@@ -12,6 +14,10 @@ int main(int argc, char* argv[]) {
 	Mat frame;
 
 	MetricContainer container;
+	TrainingData data;
+	Mat image(1, 1, 1);
+	data.append(image, true);
+	NeuralNetwork ml_network(1, 3, 1, data, container);
 
 	//Loop outputing collected data
 	while (true) {

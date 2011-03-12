@@ -1,6 +1,6 @@
 /*
-	Stress Test
-    Copyright (C) 2011  Spencer Jackson & Nohemi Fernandez
+    <one line to give the program's name and a brief idea of what it does.>
+    Copyright (C) <year>  <name of author>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,31 +17,27 @@
 */
 
 
-#ifndef METRICCONTAINER_H
-#define METRICCONTAINER_H
+#ifndef NEURALNETWORK_H
+#define NEURALNETWORK_H
 
-#include <utility>
-#include <list>
-using namespace std;
-
-//Forward declarations
-class MetricExtractor;
-namespace cv {
-	class Mat;
-}
+#include "ml.h"
 using namespace cv;
 
-class MetricContainer {
+//Forward declarations
+class TrainingData;
+class MetricContainer;
+
+class NeuralNetwork {
 
 public:
-    MetricContainer();
-    virtual ~MetricContainer();
-    void add_metric_extractor(MetricExtractor*);
-	Mat calculate(Mat const& input) const;
-	vector<double> get_weights() const;
-
+    NeuralNetwork();
+	NeuralNetwork(unsigned int input_size, unsigned int hidden_size,
+				  unsigned int output_size, TrainingData const& train,
+				  MetricContainer const& container
+ 				);
+    virtual ~NeuralNetwork();
 private:
-    list<MetricExtractor*> metrics;
+	CvANN_MLP network;
 };
 
-#endif // METRICCONTAINER_H
+#endif // NEURALNETWORK_H
