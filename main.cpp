@@ -2,7 +2,9 @@
 #include "highgui.h"
 #include "finder.h"
 #include "metriccontainer.h"
+#include <iostream>
 using namespace cv;
+using namespace std;
 
 int main(int argc, char* argv[]) {
 	//Init camera feed and GUI output
@@ -19,6 +21,10 @@ int main(int argc, char* argv[]) {
 		Finder eyes;
 		vector<Rect> eye_frame;
 		eye_frame = eyes.detectEyes(frame);
+		for (vector<Rect>::iterator it = eye_frame.begin(); it != eye_frame.end(); ++it) {
+			cout << it->x << endl;
+			cout << it->y << endl;
+		}
 		//imshow("display", frame);
 		if (waitKey(30) >= 0 ) break;
 	}
